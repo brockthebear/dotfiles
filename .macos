@@ -1,40 +1,75 @@
 #!/usr/bin/env bash
 
 # Save screenshots to a specified location ("~/Desktop/screenshots" in this example)
-
 defaults write com.apple.screencapture location ~Desktop/screenshots
 killall SystemUIServer
 
 # Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
-
 defaults write com.apple.screencapture type -string "png"
 
 # Disable creation of metadata(.DS_Store) files on network or USB volumes
-
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
-
 defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 
 # Hide all desktop icons (useful when presenting)
-
 defaults write com.apple.finder CreateDesktop -bool false && killall Finder
 
 # Show all desktop icons
-
 defaults write com.apple.finder CreateDesktop -bool true && killall Finder
 
 # Show hidden files in Finder
-
 defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder
 
 # Hide hidden files in Finder
-
 defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder
 
 # Recursively delete .DS_Store files
-
 find . -type f -name '*.DS_Store' -ls -delete
 
-# Empty the trash on all mounted volumes and the main HDD. Also, clear Apple's System Logs to improve shell startup speed.
-
+# Empty the trash on all mounted volumes and the main HDD.
+# Also, clear Apple's System Logs to improve shell startup speed.
 sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl
+
+# Dark menu bar and dock
+defaults write $HOME/Library/Preferences/.GlobalPreferences.plist AppleInterfaceTheme -string "Dark"
+
+# Reveal IP address, hostname, OS version, etc. when clicking the clock
+# in the login window
+sudo defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName
+
+# Automatically quit printer app once the print jobs complete
+defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
+
+# Increase sound quality for Bluetooth headphones/headsets
+defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40
+
+# Use list view in all Finder windows by default
+# Four-letter codes for the other view modes: `icnv`, `clmv`, `Flwv`
+defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
+
+# Disable the warning before emptying the Trash
+defaults write com.apple.finder WarnOnEmptyTrash -bool false
+
+# Auto hide menu bar
+defaults write NSGlobalDomain _HIHideMenuBar -bool true
+
+# Prevent Photos from opening automatically when devices are plugged in
+defaults -currentHost write com.apple.ImageCapture disableHotPlug -bool true
+
+# Automatically quit printer app once the print jobs complete
+defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
+
+# Disable Dashboard
+defaults write com.apple.dashboard mcx-disabled -bool true
+
+# Don’t show Dashboard as a Space
+defaults write com.apple.dock dashboard-in-overlay -bool tru
+
+# Make Dock icons of hidden applications translucent
+defaults write com.apple.dock showhidden -bool true
+
+# Download newly available app updates in background
+defaults write com.apple.SoftwareUpdate AutomaticDownload -int 1
+
+# Turn on app auto-update
+defaults write com.apple.commerce AutoUpdate -bool true

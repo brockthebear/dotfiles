@@ -104,6 +104,15 @@ function a() {
 	fi
 }
 
+# Defines transfer alias and provides easy command line file and folder sharing.
+# https://gist.github.com/nl5887/a511f172d3fb3cd0e42d
+if [ -e "$HOME/.transfer" ]
+then
+	source "$HOME/.transfer"
+else
+	echo "transfer function not found. make sure $HOME/.transfer exists."
+fi
+
 alias gs='git status'
 alias gaa='git add -A'
 alias gdiff='git diff --color-words'

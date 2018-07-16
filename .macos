@@ -63,7 +63,7 @@ defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
 defaults write com.apple.dashboard mcx-disabled -bool true
 
 # Don’t show Dashboard as a Space
-defaults write com.apple.dock dashboard-in-overlay -bool tru
+defaults write com.apple.dock dashboard-in-overlay -bool true
 
 # Make Dock icons of hidden applications translucent
 defaults write com.apple.dock showhidden -bool true

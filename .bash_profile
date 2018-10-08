@@ -71,6 +71,13 @@ alias mem_hogs='ps wwaxr -o pid,stat,%cpu,time,command | head -10'
 # Show party parrot in terminal.
 alias party='curl parrot.live'
 
+# Watch Star Wars in ASCII.
+# If telnet is not installed, run `brew install telnet` on macOS.
+alias starwars='telnet towel.blinkenlights.nl'
+
+# Turn the terminal-screen into matrix-style gibberish.
+alias matrix='LC_ALL=C tr -c "[:digit:]" " " < /dev/urandom | dd cbs=$COLUMNS conv=unblock | GREP_COLOR="1;32" grep --color "[^ ]"'
+
 # Determine size of a file or total size of a directory
 function fs() {
 	if du -b /dev/null > /dev/null 2>&1; then

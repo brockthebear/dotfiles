@@ -68,6 +68,9 @@ alias pumpitup="osascript -e 'set volume 7'"
 # Find CPU hogs
 alias mem_hogs='ps wwaxr -o pid,stat,%cpu,time,command | head -10'
 
+# Show party parrot in terminal.
+alias party='curl parrot.live'
+
 # Determine size of a file or total size of a directory
 function fs() {
 	if du -b /dev/null > /dev/null 2>&1; then

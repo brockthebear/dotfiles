@@ -96,12 +96,12 @@ function fs() {
 # cdf to open the Finder directory in the terminal and `open .` to open in Finder
 # the cwd.
 function cdf() {
-    target=`osascript -e 'tell application "Finder" to if (count of Finder windows) > 0 then get POSIX path of (target of front Finder window as text)'`
-    if [ "$target" != "" ]; then
-        cd "$target"; pwd
-    else
-        echo 'No Finder window found' >&2
-    fi
+	target=`osascript -e 'tell application "Finder" to if (count of Finder windows) > 0 then get POSIX path of (target of front Finder window as text)'`
+	if [ "$target" != "" ]; then
+		cd "$target"; pwd
+	else
+		echo 'No Finder window found' >&2
+	fi
 }
 
 # `a` with no arguments opens the current directory in Atom Editor, otherwise
@@ -123,12 +123,22 @@ else
 	echo "transfer function not found. make sure $HOME/.transfer exists."
 fi
 
+alias f="fork open"
 alias gs='git status'
 alias gaa='git add -A'
-alias gdiff='git diff --color-words'
+alias gdiff='git diff --color-words -w'
 alias gclean='git gc --prune=now && git remote prune origin'
 alias glog='git log --graph --oneline --all --decorate'
 alias glogo='glog `git reflog | cut -c1-7`'
+alias gstats='git shortlog --sn --all --no-merges'
+alias grecent='git for-each-ref --count=10 --sort=-committerdate refs/heads/ --format="%(refname:short)"'
+alias grecap='git log --all --oneline --no-merges --author=brock.boren@gmail.com'
+alias goverview='git log --all --oneline --no-merges'
+alias gtoday='git log --since=00:00:00 --all --no-merges --oneline --author=brock.boren@gmail.com'
+alias gupstream='git log --oneline --no-merges HEAD..<remote>/<branch>'
+alias glocal='git log --oneline --no-merges <remote>/<branch>..HEAD'
+alias ggraph='git log --graph --all --decorate --stat --date=iso'
+alias gchangelog='git log --oneline --no-merges <last tag>..HEAD'
 
 function goops {
 	git commit -a --amend
@@ -149,8 +159,17 @@ gp - Pull (via rebase) then push
 gup - Pull (via rebase)
 glog - Decorated & graphed log
 glogo - As glog, including orphan commits
-gdiff - A word-diff of changes
+gdiff - A word-diff of changes with whitespace removed. Add --word-diff to show only changed words.
 gclean - Compress & garbage collect data store
+gstats - Summary of git log. (--since='2 weeks') can be used to limit timeframe.
+grecent - See which branches you recently worked on.
+grecap - See what you've been up to.
+goverview - See what everyone's been up to.
+gtoday - A summary of work done since midnight.
+gupstream - Check which changes you're about to pull. (git log --oneline --no-merges ..origin/feature/fonts)
+glocal - Check what you're about to push. This logs the commits that <remote>/<branch> needs before it resembles HEAD. (git log --oneline --no-merges origin/feature/fonts..HEAD)
+ggraph - View complex logs.
+gchangelog - Generate a changelog. (git log --oneline --no-merges <last tag or last commit hash>..)
 - - - - - - - - - - - - - -
 Prompt Symbols:
 - - - - - - - - - - - - - -

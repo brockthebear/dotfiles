@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Save screenshots to a specified location ("~/Desktop/screenshots" in this example)
-defaults write com.apple.screencapture location ~Desktop/screenshots
+defaults write com.apple.screencapture location ~/Desktop/screenshots
 killall SystemUIServer
 
 # Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)

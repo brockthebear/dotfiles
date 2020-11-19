@@ -97,7 +97,6 @@ plugins=(
   gitignore
   node
   npm
-  npx
   nvm
   osx
   pip

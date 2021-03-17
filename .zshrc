@@ -116,6 +116,8 @@ ZSH_DOTENV_PROMPT=false
 
 source $ZSH/oh-my-zsh.sh
 
+# source /Users/brockboren/.rvm/scripts/rvm
+
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -133,6 +135,15 @@ fi
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+# export PATH="$PATH:$HOME/.rvm/bin"
+
+# [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" 
+
+# Enable tab completion for colorls
+# https://github.com/athityakumar/colorls#installation
+# source $(dirname $(gem which colorls))/tab_complete.sh
+
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
@@ -144,8 +155,12 @@ fi
 alias reload="src"
 alias venv="source ./venv/bin/activate"
 alias py="python3"
-alias lc='colorls -lA --sd'
-alias la='colorls -lA --sd'
+alias rm="trash" # brew install trash https://github.com/sindresorhus/trash-cli
+# alias lc='colorls -lA --sd'
+# alias la='colorls -lA --sd'
+# alias ltree='colorls -lrtA --sf --tree'
+# alias lstat='colorls -lA --sd --report'
+# alias lgst='colorls -lA --sf --git-status'
 
 unset zle_bracketed_paste
 
@@ -159,6 +174,11 @@ autoload -Uz _zplugin
 ### End of Zplugin installer's chunk
 export PATH="/usr/local/opt/ruby/bin:$PATH"
 export PATH=$PATH:$(ruby -e 'puts Gem.bindir')
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" 
 
 # Enable tab completion for colorls
 # https://github.com/athityakumar/colorls#installation

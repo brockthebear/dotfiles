@@ -80,6 +80,8 @@ DISABLE_UPDATE_PROMPT="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
+	alias-finder
+  autojump
   battery
   brew
   colored-man-pages
@@ -92,24 +94,30 @@ plugins=(
   frontend-search
   gatsby
   git
+	git-aliases
   git-extras
+	git-it-on
   git-prompt
   gitignore
+	jsontools
+	last-working-dir
   node
   npm
   nvm
   osx
   pip
-  postgres
   python
+	sudo
   thefuck
   themes
   virtualenv
   vscode
   yarn
   z
+	zsh-autosuggestions
   zsh-interactive-cd
   zsh_reload
+	zsh-syntax-highlighting
 )
 
 ZSH_DOTENV_PROMPT=false
@@ -152,10 +160,88 @@ fi
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias reload="src"
+
+# Easier navigation: .., ..., ...., ....., ~ and -
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ~="cd ~" # `cd` is probably faster to type though
+alias -- -="cd -"
+
+# Shortcuts
+alias d="cd ~/Documents"
+alias dl="cd ~/Downloads"
+alias dt="cd ~/Desktop"
+alias g="git"
+alias h="history"
+
+# List all files colorized in long format
+alias l="ls -lF ${colorflag}"
+
+# List all files colorized in long format, including dot files
+alias la="ls -laF ${colorflag}"
+
+# List only directories
+alias lsd="ls -lF ${colorflag} | grep --color=never '^d'"
+
+# Optimize all images in a folder
+alias optimize='image_optim *.{jpg,png,gif,svg}'
+
+# Get week number
+alias week='date +%V'
+
+# brew doctor
+alias brewdoc='brew doctor'
+
+# update homebrew
+alias brewup='brew update'
+
+# list outdated homebrew packages
+alias brewout='brew outdated'
+
+# Recursively delete `.DS_Store` files
+alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
+
+# Show/hide hidden files in Finder
+alias show="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
+alias hide="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
+
+# Hide/show all desktop icons (useful when presenting)
+alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
+alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
+
+# Empty the Trash on all mounted volumes and the main HDD
+# Also, clear Apple’s System Logs to improve shell startup speed
+alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl"
+
+# Use trash-cli to move deleted files to the trash instead of permanently deleting them.
+alias rm="trash"
+
+# Lock the screen (when going AFK)
+alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
+
+# Reload the shell (i.e. invoke as a login shell)
+alias reload="exec $SHELL -l"
+
+alias stfu="osascript -e 'set volume output muted true'"
+alias pumpitup="osascript -e 'set volume 7'"
+
+# Find CPU hogs
+alias mem_hogs='ps wwaxr -o pid,stat,%cpu,time,command | head -10'
+
+# Show party parrot in terminal.
+alias party='curl parrot.live'
+
+# Watch Star Wars in ASCII.
+# If telnet is not installed, run `brew install telnet` on macOS.
+alias starwars='telnet towel.blinkenlights.nl'
+
+# Turn the terminal-screen into matrix-style gibberish.
+alias matrix='LC_ALL=C tr -c "[:digit:]" " " < /dev/urandom | dd cbs=$COLUMNS conv=unblock | GREP_COLOR="1;32" grep --color "[^ ]"'
+
 alias venv="source ./venv/bin/activate"
 alias py="python3"
-alias rm="trash" # brew install trash https://github.com/sindresorhus/trash-cli
 # alias lc='colorls -lA --sd'
 # alias la='colorls -lA --sd'
 # alias ltree='colorls -lrtA --sf --tree'
@@ -185,42 +271,43 @@ export PATH="$PATH:$HOME/.rvm/bin"
 source $(dirname $(gem which colorls))/tab_complete.sh
 
 SPACESHIP_PROMPT_ORDER=(
-  venv          # virtualenv section
-  conda         # conda virtualenv section
-  pyenv         # Pyenv section
-  time          # Time stampts section
+  # venv          # virtualenv section
+  # conda         # conda virtualenv section
+  # pyenv         # Pyenv section
+  # time          # Time stampts section
   user          # Username section
   dir           # Current directory section
   host          # Hostname section
   git           # Git section (git_branch + git_status)
   node          # Node.js section
   # package       # Package version
-  ruby          # Ruby section
-  golang        # Go section
+  # ruby          # Ruby section
+  # golang        # Go section
   php           # PHP section
-  docker        # Docker section
-  dotnet        # .NET section
-  ember         # Ember.js section
-  terraform     # Terraform workspace section
+  # docker        # Docker section
+  # dotnet        # .NET section
+  # ember         # Ember.js section
+  # terraform     # Terraform workspace section
   exec_time     # Execution time
   line_sep      # Line break
-  battery       # Battery level and status
-  vi_mode       # Vi-mode indicator
-  jobs          # Background jobs indicator
+  # battery       # Battery level and status
+  # vi_mode       # Vi-mode indicator
+  # jobs          # Background jobs indicator
   exit_code     # Exit code section
   char          # Prompt character
 )
 
-SPACESHIP_RPROMPT_ORDER=(
-  # battery
-  time
-)
+# SPACESHIP_RPROMPT_ORDER=(
+#   # battery
+#   time
+# )
 
 # RPROMPT='$(battery_pct_prompt)'
 
 # PROMPT
 SPACESHIP_USER_SHOW="always"
 SPACESHIP_USER_COLOR='#FF1493'
+
 
 SPACESHIP_DIR_COLOR='#40E0D0'
 
@@ -233,7 +320,7 @@ SPACESHIP_PROMPT_PREFIXES_SHOW="${SPACESHIP_PROMPT_PREFIXES_SHOW=true}"
 SPACESHIP_PROMPT_SUFFIXES_SHOW="${SPACESHIP_PROMPT_SUFFIXES_SHOW=true}"
 SPACESHIP_PROMPT_DEFAULT_PREFIX="${SPACESHIP_PROMPT_DEFAULT_PREFIX="via "}"
 SPACESHIP_PROMPT_DEFAULT_SUFFIX="${SPACESHIP_PROMPT_DEFAULT_SUFFIX=" "}"
-# SPACESHIP_PROMPT_FIRST_PREFIX_SHOW='true'
+SPACESHIP_PROMPT_FIRST_PREFIX_SHOW='true'
 
 SPACESHIP_CHAR_SYMBOL=">"
 SPACESHIP_CHAR_SUFFIX=" "
@@ -245,6 +332,16 @@ SPACESHIP_HOST_COLOR_SSH="#00FF7F"
 
 SPACESHIP_GIT_STATUS_COLOR="#DC143C"
 SPACESHIP_GIT_SYMBOL=" \UE702 "
+SPACESHIP_GIT_STATUS_ADDED="%F{yellow} +%F{red}"
+SPACESHIP_GIT_STATUS_UNTRACKED="%F{blue} ? %F{red}"
+SPACESHIP_GIT_STATUS_DELETED="%F{green} x %F{red}"
+SPACESHIP_GIT_STATUS_MODIFIED="%F{red} ! %F{red}"
+SPACESHIP_GIT_STATUS_RENAMED="${SPACESHIP_GIT_STATUS_RENAMED="»"}"
+SPACESHIP_GIT_STATUS_STASHED="${SPACESHIP_GIT_STATUS_STASHED="$"}"
+SPACESHIP_GIT_STATUS_UNMERGED="${SPACESHIP_GIT_STATUS_UNMERGED="="}"
+SPACESHIP_GIT_STATUS_AHEAD="${SPACESHIP_GIT_STATUS_AHEAD="⇡"}"
+SPACESHIP_GIT_STATUS_BEHIND="${SPACESHIP_GIT_STATUS_BEHIND="⇣"}"
+SPACESHIP_GIT_STATUS_DIVERGED="${SPACESHIP_GIT_STATUS_DIVERGED="⇕"}"
 
 # NODE
 # SPACESHIP_NODE_PREFIX=" "
@@ -256,3 +353,11 @@ SPACESHIP_VENV_COLOR='#87ff5f'
 SPACESHIP_VENV_PREFIX="venv:("
 SPACESHIP_VENV_SUFFIX=") "
 # SPACESHIP_VENV_GENERIC_NAMES='(.venv)'
+
+# https://starship.rs/config/#prompt
+eval "$(starship init zsh)"
+
+function set_win_title(){
+    echo -ne "\033]0; $(basename "$PWD") \007"
+}
+starship_precmd_user_func="set_win_title"

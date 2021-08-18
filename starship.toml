@@ -1,0 +1,19 @@
+# https://starship.rs/config/#prompt
+
+[username]
+style_user = "#FF1493 bold"
+style_root = "#00FF7F bold"
+format = "[$user]($style) "
+disabled = false
+show_always = true
+
+[cmd_duration]
+min_time = 5_000
+
+[php]
+disabled = true
+
+[git_metrics]
+disabled = false
+
+command_timeout = 5000

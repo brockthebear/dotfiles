@@ -1,0 +1,61 @@
+{
+  "alfredtheme" : {
+    "result" : {
+      "textSpacing" : 4,
+      "subtext" : {
+        "size" : 11,
+        "colorSelected" : "#BABABAFF",
+        "font" : "Helvetica Neue Light",
+        "color" : "#7F7F7FFF"
+      },
+      "shortcut" : {
+        "size" : 16,
+        "colorSelected" : "#7F7F7FFF",
+        "font" : "Helvetica Neue Light",
+        "color" : "#4C4C4CFF"
+      },
+      "backgroundSelected" : "#00000033",
+      "text" : {
+        "size" : 16,
+        "colorSelected" : "#FFFFFFFF",
+        "font" : "Helvetica Neue Light",
+        "color" : "#FFFFFFFF"
+      },
+      "iconPaddingHorizontal" : 5,
+      "paddingVertical" : 4,
+      "iconSize" : 40
+    },
+    "search" : {
+      "paddingVertical" : 2,
+      "background" : "#27282200",
+      "spacing" : 10,
+      "text" : {
+        "size" : 32,
+        "colorSelected" : "#F92772FF",
+        "font" : "Helvetica Neue Light",
+        "color" : "#F92772FF"
+      },
+      "backgroundSelected" : "#00000033"
+    },
+    "window" : {
+      "color" : "#272822F9",
+      "paddingHorizontal" : 10,
+      "width" : 680,
+      "borderPadding" : 10,
+      "borderColor" : "#00000000",
+      "blur" : 0,
+      "roundness" : 3,
+      "paddingVertical" : 10
+    },
+    "credit" : "Fabio Niephaus",
+    "separator" : {
+      "color" : "#00000000",
+      "thickness" : 1
+    },
+    "scrollbar" : {
+      "color" : "#262626FF",
+      "thickness" : 2
+    },
+    "name" : "Monokai Reloaded (v2)"
+  }
+}

@@ -15,5 +15,3 @@ disabled = true
 
 [git_metrics]
 disabled = false
-
-command_timeout = 5000

@@ -8,6 +8,11 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/brockboren/.oh-my-zsh"
 
+# https://github.com/larkery/zsh-histdb
+HISTDB_TABULATE_CMD=(sed -e $'s/\x1f/\t/g')
+source $HOME/.oh-my-zsh/custom/plugins/zsh-histdb/sqlite-history.zsh
+autoload -Uz add-zsh-hook
+
 # Disable confirmation when using `rm`
 setopt rmstarsilent
 
@@ -19,7 +24,6 @@ ZSH_THEME="spaceship"
 
 # autoload -U promptinit; promptinit
 # prompt spaceship
-
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -101,22 +105,20 @@ plugins=(
   gitignore
 	jsontools
 	last-working-dir
+  macos
   node
   npm
   nvm
-  osx
   pip
   python
 	sudo
   thefuck
   themes
   virtualenv
-  vscode
   yarn
   z
 	zsh-autosuggestions
   zsh-interactive-cd
-  zsh_reload
 	zsh-syntax-highlighting
 )
 
@@ -354,10 +356,12 @@ SPACESHIP_VENV_PREFIX="venv:("
 SPACESHIP_VENV_SUFFIX=") "
 # SPACESHIP_VENV_GENERIC_NAMES='(.venv)'
 
-# https://starship.rs/config/#prompt
-eval "$(starship init zsh)"
-
 function set_win_title(){
     echo -ne "\033]0; $(basename "$PWD") \007"
 }
 starship_precmd_user_func="set_win_title"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# https://starship.rs/config/#prompt
+eval "$(starship init zsh)"

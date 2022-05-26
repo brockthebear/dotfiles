@@ -250,6 +250,22 @@ alias py="python3"
 # alias lstat='colorls -lA --sd --report'
 # alias lgst='colorls -lA --sf --git-status'
 
+# https://github.com/mergestat/mergestat
+alias mergestat="mergestat"
+# https://github.com/arzzen/git-quick-stats
+alias gstat="git-quick-stats"
+# Git Commit Log Stats (https://gist.github.com/eyecatchup/3fb7ef0c0cbdb72412fc)
+# List repository contributors by author name (sorted by name)
+alias gitstats-name="git log --format='%aN' | sort -u"
+# List total commits by author (sorted by commit count, with merge commits ignored)
+alias gitstats-commit="git shortlog -sn --no-merges"
+# List file change stats by author (ignore merge commits)
+# alias gitstats-file="git log --no-merges --author="$(git config user.name)" --pretty=tformat: --numstat | awk '{inserted+=$1; deleted+=$2; delta+=$1-$2; ratio=deleted/inserted} END {printf "Commit stats:\n- Lines added (total)....  %s\n- Lines deleted (total)..  %s\n- Total lines (delta)....  %s\n- Add./Del. ratio (1:n)..  1 : %s\n", inserted, deleted, delta, ratio }' -"
+alias gitstats-file-count="git log --no-merges --shortstat --author="$(git config user.name)" | grep -E \"fil(e|es) changed\" | awk '{files+=$1; inserted+=$4; deleted+=$6; delta+=$4-$6; ratio=deleted/inserted} END {printf \"Commit stats:\n- Files changed (total)..  %s\n- Lines added (total)....  %s\n- Lines deleted (total)..  %s\n- Total lines (delta)....  %s\n- Add./Del. ratio (1:n)..  1 : %s\n\", files, inserted, deleted, delta, ratio }' -"
+alias gitstats-all="git log --author="$(git config user.name)" --pretty=tformat: --numstat --since=\"18 Apr, 2021\" | awk '{inserted+=$1; deleted+=$2; delta+=$1-$2; ratio=deleted/inserted} END {printf \"Commit stats:\n- Lines added (total)....  %s\n- Lines deleted (total)..  %s\n- Total lines (delta)....  %s\n- Add./Del. ratio (1:n)..  1 : %s\n\", inserted, deleted, delta, ratio }' -"
+alias gitstats-all-count="git log --shortstat --author=\"Brock Boren\" --since=\"19 Apr, 2021\" | awk '{inserted+=$1; deleted+=$2; delta+=$1-$2; ratio=deleted/inserted} END {printf \"Commit stats:\n- Lines added (total)....  %s\n- Lines deleted (total)..  %s\n- Total lines (delta)....  %s\n- Add./Del. ratio (1:n)..  1 : %s\n\", inserted, deleted, delta, ratio }' -"
+
+
 unset zle_bracketed_paste
 
 # Disable confirmation when using `rm`

@@ -5,13 +5,34 @@ export PATH="/usr/local/sbin:$PATH"
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
+# ### JAVA and JDK
+# # To enable shims and autocompletion add to your profile:
+# if which jenv > /dev/null; then eval "$(jenv init -)"; fi
+export PATH="$HOME/.jenv/bin:$PATH"
+eval "$(jenv init -)"
+
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/brockboren/.oh-my-zsh"
+export ZSH="/Users/{username}/.oh-my-zsh"
 
 # https://github.com/larkery/zsh-histdb
 HISTDB_TABULATE_CMD=(sed -e $'s/\x1f/\t/g')
 source $HOME/.oh-my-zsh/custom/plugins/zsh-histdb/sqlite-history.zsh
 autoload -Uz add-zsh-hook
+
+# _zsh_autosuggest_strategy_histdb_top() {
+#     local query="
+#         select commands.argv from history
+#         left join commands on history.command_id = commands.rowid
+#         left join places on history.place_id = places.rowid
+#         where commands.argv LIKE '$(sql_escape $1)%'
+#         group by commands.argv, places.dir
+#         order by places.dir != '$(sql_escape $PWD)', count(*) desc
+#         limit 1
+#     "
+#     suggestion=$(_histdb_query "$query")
+# }
+
+# ZSH_AUTOSUGGEST_STRATEGY=histdb_top
 
 # Disable confirmation when using `rm`
 setopt rmstarsilent
@@ -20,10 +41,14 @@ setopt rmstarsilent
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="spaceship"
+# ZSH_THEME="spaceship"
+
+# Update theme to powerlevel10k
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # autoload -U promptinit; promptinit
 # prompt spaceship
+
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -126,8 +151,6 @@ ZSH_DOTENV_PROMPT=false
 
 source $ZSH/oh-my-zsh.sh
 
-# source /Users/brockboren/.rvm/scripts/rvm
-
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -177,6 +200,10 @@ alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 alias g="git"
 alias h="history"
+alias hdb="histdb"
+
+# Open VS Code
+alias code="open -b com.microsoft.VSCode"
 
 # List all files colorized in long format
 alias l="ls -lF ${colorflag}"
@@ -225,6 +252,7 @@ alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resource
 
 # Reload the shell (i.e. invoke as a login shell)
 alias reload="exec $SHELL -l"
+alias src='reload'
 
 alias stfu="osascript -e 'set volume output muted true'"
 alias pumpitup="osascript -e 'set volume 7'"
@@ -244,14 +272,13 @@ alias matrix='LC_ALL=C tr -c "[:digit:]" " " < /dev/urandom | dd cbs=$COLUMNS co
 
 alias venv="source ./venv/bin/activate"
 alias py="python3"
-# alias lc='colorls -lA --sd'
-# alias la='colorls -lA --sd'
-# alias ltree='colorls -lrtA --sf --tree'
-# alias lstat='colorls -lA --sd --report'
-# alias lgst='colorls -lA --sf --git-status'
 
 # https://github.com/mergestat/mergestat
-alias mergestat="mergestat"
+alias mergestat-summary="mergestat summarize commits"
+alias mergestat-month="mergestat summarize commits --start \"-30 days\""
+alias mergestat-year="mergestat summarize commits --start \"start of year\""
+
+
 # https://github.com/arzzen/git-quick-stats
 alias gstat="git-quick-stats"
 # Git Commit Log Stats (https://gist.github.com/eyecatchup/3fb7ef0c0cbdb72412fc)
@@ -263,8 +290,7 @@ alias gitstats-commit="git shortlog -sn --no-merges"
 # alias gitstats-file="git log --no-merges --author="$(git config user.name)" --pretty=tformat: --numstat | awk '{inserted+=$1; deleted+=$2; delta+=$1-$2; ratio=deleted/inserted} END {printf "Commit stats:\n- Lines added (total)....  %s\n- Lines deleted (total)..  %s\n- Total lines (delta)....  %s\n- Add./Del. ratio (1:n)..  1 : %s\n", inserted, deleted, delta, ratio }' -"
 alias gitstats-file-count="git log --no-merges --shortstat --author="$(git config user.name)" | grep -E \"fil(e|es) changed\" | awk '{files+=$1; inserted+=$4; deleted+=$6; delta+=$4-$6; ratio=deleted/inserted} END {printf \"Commit stats:\n- Files changed (total)..  %s\n- Lines added (total)....  %s\n- Lines deleted (total)..  %s\n- Total lines (delta)....  %s\n- Add./Del. ratio (1:n)..  1 : %s\n\", files, inserted, deleted, delta, ratio }' -"
 alias gitstats-all="git log --author="$(git config user.name)" --pretty=tformat: --numstat --since=\"18 Apr, 2021\" | awk '{inserted+=$1; deleted+=$2; delta+=$1-$2; ratio=deleted/inserted} END {printf \"Commit stats:\n- Lines added (total)....  %s\n- Lines deleted (total)..  %s\n- Total lines (delta)....  %s\n- Add./Del. ratio (1:n)..  1 : %s\n\", inserted, deleted, delta, ratio }' -"
-alias gitstats-all-count="git log --shortstat --author=\"Brock Boren\" --since=\"19 Apr, 2021\" | awk '{inserted+=$1; deleted+=$2; delta+=$1-$2; ratio=deleted/inserted} END {printf \"Commit stats:\n- Lines added (total)....  %s\n- Lines deleted (total)..  %s\n- Total lines (delta)....  %s\n- Add./Del. ratio (1:n)..  1 : %s\n\", inserted, deleted, delta, ratio }' -"
-
+alias gitstats-all-count="git log --shortstat --author=\"{YOUR NAME HERE (e.g., Kyle Cobbler)}\" --since=\"19 Apr, 2021\" | awk '{inserted+=$1; deleted+=$2; delta+=$1-$2; ratio=deleted/inserted} END {printf \"Commit stats:\n- Lines added (total)....  %s\n- Lines deleted (total)..  %s\n- Total lines (delta)....  %s\n- Add./Del. ratio (1:n)..  1 : %s\n\", inserted, deleted, delta, ratio }' -"
 
 unset zle_bracketed_paste
 
@@ -379,5 +405,14 @@ starship_precmd_user_func="set_win_title"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+[[ -e ~/.phpbrew/bashrc ]] && source ~/.phpbrew/bashrc
+export PHPBREW_SET_PROMPT=1
+
+export LDFLAGS="-L/usr/local/opt/php@8.0/lib"
+export CPPFLAGS="-I/usr/local/opt/php@8.0/include"
+
 # https://starship.rs/config/#prompt
 eval "$(starship init zsh)"
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.'
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
